@@ -42,6 +42,23 @@ const B2B_MAX_RUN = 500;
 
 const formatPrice = (value) => `${value.toLocaleString('ru-RU')} ₸`;
 
+const defaultDesign = {
+  type: 'РљСѓСЂС‚РєР°',
+  color: 'РћР»РёРІРєРѕРІС‹Р№',
+  details: [],
+  customText: '',
+};
+
+defaultDesign.type = Object.keys(basePrices)[0];
+defaultDesign.color = colorSwatches[0].label;
+
+const normalizeDesign = (design = {}) => ({
+  type: design.type || defaultDesign.type,
+  color: design.color || defaultDesign.color,
+  details: Array.isArray(design.details) ? design.details : defaultDesign.details,
+  customText: typeof design.customText === 'string' ? design.customText : defaultDesign.customText,
+});
+
 const getInitialDesign = (locationState, searchParams) => {
   const selectedItem = locationState?.selectedItem;
   const selectedTarget = locationState?.selectedTarget;
@@ -49,9 +66,9 @@ const getInitialDesign = (locationState, searchParams) => {
   const typeRaw = searchParams.get('type');
   const colorRaw = searchParams.get('color');
 
-  const service = serviceRaw ? serviceRaw.trim() : null;
-  const queryType = typeRaw ? typeRaw.trim() : null;
-  const queryColor = colorRaw ? colorRaw.trim() : null;
+  const service = serviceRaw ? serviceRaw.trim() : '';
+  const queryType = typeRaw ? typeRaw.trim() : '';
+  const queryColor = colorRaw ? colorRaw.trim() : '';
 
   const serviceDefaults = {
     repair: { type: 'Куртка', color: 'Оливковый', details: ['zipper'] },
@@ -60,7 +77,7 @@ const getInitialDesign = (locationState, searchParams) => {
   };
 
   if (service && serviceDefaults[service]) {
-    return serviceDefaults[service];
+    return normalizeDesign(serviceDefaults[service]);
   }
 
   if (queryType === 'hoodie') {
@@ -85,8 +102,8 @@ const getInitialDesign = (locationState, searchParams) => {
 function Constructor() {
   const location = useLocation();
   const [searchParams] = useSearchParams();
-  const { userCapturedPhoto } = useOutletContext();
-  const initialDesign = useMemo(() => getInitialDesign(location.state, searchParams), [location.state, searchParams]);
+  const { userCapturedPhoto } = useOutletContext() ?? {};
+  const initialDesign = useMemo(() => normalizeDesign(getInitialDesign(location.state, searchParams)), [location.state, searchParams]);
   const [activeTool, setActiveTool] = useState('color');
   const [design, setDesign] = useState(initialDesign);
   const [runQuantity, setRunQuantity] = useState(50);
@@ -111,8 +128,10 @@ function Constructor() {
     return () => window.clearTimeout(timer);
   }, [toast]);
 
-  const selectedColor = colorSwatches.find((color) => color.label === design.color) ?? colorSwatches[0];
-  const selectedDetails = detailTags.filter((detail) => design.details.includes(detail.id));
+  const safeDesign = normalizeDesign(design);
+  const trimmedCustomText = safeDesign.customText.trim();
+  const selectedColor = colorSwatches.find((color) => color.label === safeDesign.color) ?? colorSwatches[0];
+  const selectedDetails = detailTags.filter((detail) => safeDesign.details.includes(detail.id));
 
   const createDesignImageBlob = async () => {
     const canvas = document.createElement('canvas');
@@ -142,10 +161,10 @@ function Constructor() {
 
     ctx.fillStyle = '#ffffff';
     ctx.font = '700 36px sans-serif';
-    ctx.fillText(design.type, previewX + 28, previewY + 58);
+    ctx.fillText(safeDesign.type, previewX + 28, previewY + 58);
 
     ctx.font = '500 24px sans-serif';
-    ctx.fillText(design.color, previewX + 28, previewY + 96);
+    ctx.fillText(safeDesign.color, previewX + 28, previewY + 96);
 
     const wrapText = (text, x, y, maxWidth, lineHeight) => {
       const words = text.split(' ');
@@ -169,15 +188,15 @@ function Constructor() {
       return lineY + lineHeight;
     };
 
-    if (design.customText.trim()) {
+    if (trimmedCustomText) {
       ctx.font = '600 24px sans-serif';
       ctx.fillStyle = '#ffffff';
-      wrapText(`Текст: ${design.customText.trim()}`, previewX + 28, previewY + 150, previewW - 56, 30);
+      wrapText(`Текст: ${trimmedCustomText}`, previewX + 28, previewY + 150, previewW - 56, 30);
     }
 
     ctx.font = '500 20px sans-serif';
     ctx.fillStyle = '#ffffff';
-    const detailsLabel = design.details.length ? `Детали: ${selectedDetails.map((detail) => detail.label).join(', ')}` : 'Детали: без доп. деталей';
+    const detailsLabel = safeDesign.details.length ? `Детали: ${selectedDetails.map((detail) => detail.label).join(', ')}` : 'Детали: без доп. деталей';
     wrapText(detailsLabel, previewX + 28, previewY + 220, previewW - 56, 26);
 
     ctx.fillStyle = '#212121';
@@ -217,7 +236,7 @@ function Constructor() {
 
       const formData = new FormData();
       formData.append('chat_id', import.meta.env.VITE_TELEGRAM_CHAT_ID);
-      formData.append('caption', `🎉 Новый заказ на апсайклинг!\nDesign ID: APC-7492\nТип: ${design.type}\nЦвет: ${design.color}\nСтоимость: ${formatPrice(pricing.total)}`);
+      formData.append('caption', `🎉 Новый заказ на апсайклинг!\nDesign ID: APC-7492\nТип: ${safeDesign.type}\nЦвет: ${safeDesign.color}\nСтоимость: ${formatPrice(pricing.total)}`);
 
       let imageBlob;
 
@@ -263,15 +282,15 @@ function Constructor() {
   };
 
   const pricing = useMemo(() => {
-    const base = basePrices[design.type] ?? basePrices.Куртка;
-    const detailsCost = design.details.length * 1500;
-    const textCost = design.customText.trim() ? 2000 : 0;
+    const base = basePrices[safeDesign.type] ?? basePrices.Куртка;
+    const detailsCost = safeDesign.details.length * 1500;
+    const textCost = trimmedCustomText ? 2000 : 0;
     const run = isB2B ? Math.max(50, Math.min(500, runQuantity)) : 1;
     const total = (base + detailsCost + textCost) * run;
 
     const bom = [
       {
-        material: `${design.type}: переработанный деним и хлопок`,
+        material: `${safeDesign.type}: переработанный деним и хлопок`,
         quantity: `${run} шт.`,
         price: base * run,
       },
@@ -280,10 +299,10 @@ function Constructor() {
         quantity: `${run} шт.`,
         price: 1500 * run,
       })),
-      ...(design.customText.trim()
+      ...(trimmedCustomText
         ? [
             {
-              material: `Кастомный текст: "${design.customText.trim()}"`,
+              material: `Кастомный текст: "${trimmedCustomText}"`,
               quantity: `${run} шт.`,
               price: 2000 * run,
             },
@@ -295,12 +314,16 @@ function Constructor() {
   }, [design, selectedDetails, isB2B, runQuantity]);
 
   const toggleDetail = (detailId) => {
-    setDesign((current) => ({
-      ...current,
-      details: current.details.includes(detailId)
-        ? current.details.filter((item) => item !== detailId)
-        : [...current.details, detailId],
-    }));
+    setDesign((current) => {
+      const currentDesign = normalizeDesign(current);
+
+      return {
+        ...currentDesign,
+        details: currentDesign.details.includes(detailId)
+          ? currentDesign.details.filter((item) => item !== detailId)
+          : [...currentDesign.details, detailId],
+      };
+    });
   };
 
   const handleGenerateTechPack = () => {
@@ -338,7 +361,7 @@ function Constructor() {
       <div className="rounded-2xl bg-[#f7f7ef] p-3 text-sm text-gray-700">
         <p className="font-semibold text-ink">Design ID: APC-7492</p>
         <p className="mt-1">
-          Тип: {design.type} · Цвет: {design.color} · Деталей: {design.details.length}
+          Тип: {safeDesign.type} · Цвет: {safeDesign.color} · Деталей: {safeDesign.details.length}
         </p>
       </div>
 
@@ -369,7 +392,7 @@ function Constructor() {
         <div className="mt-3 grid gap-2 text-sm text-gray-600">
           <div className="rounded-xl bg-[#f7f7ef] p-2">Крой: oversize base, усиленные плечевые швы</div>
           <div className="rounded-xl bg-[#f7f7ef] p-2">Фурнитура: {selectedDetails.map((item) => item.label).join(', ') || 'без доп. деталей'}</div>
-          <div className="rounded-xl bg-[#f7f7ef] p-2">Маркировка: {design.customText.trim() || 'без текста'}</div>
+          <div className="rounded-xl bg-[#f7f7ef] p-2">Маркировка: {trimmedCustomText || 'без текста'}</div>
         </div>
       </div>
     </div>
@@ -430,7 +453,7 @@ function Constructor() {
                   AI Preview
                 </p>
                 <h3 className="mt-2 text-3xl font-bold text-stone-900">
-                  {design.type} · {design.color}
+                  {safeDesign.type} · {safeDesign.color}
                 </h3>
               </div>
               <div className="rounded-full bg-white/20 p-2 text-stone-800">
@@ -440,11 +463,11 @@ function Constructor() {
 
             <div className="mt-6 rounded-2xl border border-white/30 bg-white/25 p-4 shadow-sm backdrop-blur-sm">
               <div className="mx-auto flex min-h-[170px] max-w-[230px] flex-col items-center justify-center rounded-[32px] px-5 py-6 text-center text-white shadow-inner" style={{ backgroundColor: selectedColor.value }}>
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/75">{design.type}</p>
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/75">{safeDesign.type}</p>
                 <div className="my-4 h-16 w-24 rounded-b-[28px] rounded-t-xl border-2 border-white/55 bg-white/10" />
-                {design.customText.trim() ? (
+                {trimmedCustomText ? (
                   <p className="max-w-full break-words rounded-lg bg-white/90 px-3 py-1 text-sm font-bold text-[#212121]">
-                    {design.customText}
+                    {safeDesign.customText}
                   </p>
                 ) : (
                   <p className="text-xs text-white/70">Текст появится здесь</p>
@@ -455,7 +478,7 @@ function Constructor() {
                 <p className="text-sm font-semibold text-[#212121]">Добавленная фурнитура</p>
                 <div className="mt-3 flex flex-wrap gap-2 text-xs">
                   <span className="rounded-full bg-[#556B2F] px-2.5 py-1 font-semibold text-white shadow-md">
-                    {design.color}
+                    {safeDesign.color}
                   </span>
                   {selectedDetails.length ? (
                     selectedDetails.map((detail) => (
@@ -503,7 +526,7 @@ function Constructor() {
                   type="button"
                   onClick={() => setDesign((current) => ({ ...current, color: swatch.label }))}
                   className={`flex items-center justify-center rounded-2xl border p-2 ${
-                    design.color === swatch.label ? 'border-[#556B2F] ring-2 ring-[#eef4db]' : 'border-gray-200'
+                    safeDesign.color === swatch.label ? 'border-[#556B2F] ring-2 ring-[#eef4db]' : 'border-gray-200'
                   }`}
                   title={swatch.label}
                 >
@@ -516,7 +539,7 @@ function Constructor() {
           {activeTool === 'details' ? (
             <div className="mt-4 flex flex-wrap gap-2 animate-[fadeIn_0.2s_ease-out]">
               {detailTags.map((tag) => {
-                const isActive = design.details.includes(tag.id);
+                const isActive = safeDesign.details.includes(tag.id);
                 return (
                   <button
                     key={tag.id}
@@ -538,14 +561,14 @@ function Constructor() {
             <div className="mt-4 animate-[fadeIn_0.2s_ease-out]">
               <label className="mb-1 block text-sm font-medium text-gray-700">Кастомный текст на изделии</label>
               <textarea
-                value={design.customText}
+                value={safeDesign.customText}
                 onChange={(event) => setDesign((current) => ({ ...current, customText: event.target.value }))}
                 placeholder="Например: Reborn 2026"
                 rows={3}
                 maxLength={80}
                 className="w-full resize-none rounded-2xl border border-gray-300 px-3 py-3 text-sm outline-none focus:border-[#556B2F]"
               />
-              <p className="mt-1 text-xs text-gray-500">{design.customText.length}/80 символов</p>
+              <p className="mt-1 text-xs text-gray-500">{safeDesign.customText.length}/80 символов</p>
             </div>
           ) : null}
         </div>
