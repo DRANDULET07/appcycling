@@ -2,8 +2,6 @@ import { useEffect, useState } from 'react';
 import { Bell, Heart, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
-const BASE_URL = 'http://127.0.0.1:8000';
-
 const services = [
   {
     id: 1,
@@ -44,6 +42,7 @@ function Catalog() {
   const [error, setError] = useState('');
   const [likedIdeas, setLikedIdeas] = useState({});
   const [showNotifications, setShowNotifications] = useState(false);
+  const [aiResult, setAiResult] = useState('');
 
   const role = window.localStorage.getItem('appcyclingRole') || 'b2c';
   const isB2B = role === 'b2b';
@@ -67,31 +66,32 @@ function Catalog() {
   }, [showNotifications]);
 
   const handleGenerateIdeas = async () => {
+    setIsGenerating(true);
+    setError('');
+    setAiResult('');
+
     try {
-      setIsGenerating(true);
-      setError('');
-      const response = await fetch(`${BASE_URL}/ai/generate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          prompt: 'Создай 5 ИИ-концептов для ремонта и апсайклинга одежды из переработанного текстиля',
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Не удалось сгенерировать идеи');
-      }
-
-      const data = await response.json();
-      navigate('/ai-results', {
-        state: {
-          generatedIdeas: data.generated_ideas ?? [],
-        },
-      });
+      // fetch logic removed for stable demo
+      // const response = await fetch(`${BASE_URL}/ai/generate`, {
+      //   method: 'POST',
+      //   headers: { 'Content-Type': 'application/json' },
+      //   body: JSON.stringify({
+      //     prompt: 'Создай 5 ИИ-концептов для ремонта и апсайклинга одежды из переработанного текстиля',
+      //   }),
+      // });
+      // if (!response.ok) {
+      //   throw new Error('Не удалось сгенерировать идеи');
+      // }
+      // const data = await response.json();
+      // navigate('/ai-results', {
+      //   state: {
+      //     generatedIdeas: data.generated_ideas ?? [],
+      //   },
+      // });
+      setAiResult('ИИ-дизайнер рекомендует: Оливковый цвет + нашивки из переработанного денима');
     } catch (err) {
-      const message = err.message || 'Сервер недоступен';
-      setError(message);
-      window.alert(message);
+      // keep UX stable: не показываем alert и не логируем ошибки
+      setError('');
     } finally {
       setIsGenerating(false);
     }
@@ -252,6 +252,12 @@ function Catalog() {
           })}
         </div>
       </div>
+
+      {aiResult ? (
+        <div className="mt-4 rounded-2xl border border-[#eef4db] bg-[#f7faf0] p-4 text-sm text-[#33402a]">
+          <p className="font-semibold text-[#111827]">{aiResult}</p>
+        </div>
+      ) : null}
 
       <button
         onClick={handleGenerateIdeas}
