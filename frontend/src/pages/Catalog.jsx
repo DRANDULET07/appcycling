@@ -145,32 +145,26 @@ function Catalog() {
       </div>
 
       {showNotifications && (
-        <div className="fixed left-1/2 top-20 z-50 w-[min(96vw,420px)] -translate-x-1/2 rounded-2xl bg-white p-6 shadow-lg relative">
-          <button
-            type="button"
-            onClick={() => setShowNotifications(false)}
-            className="absolute -right-2 -top-2 rounded-full bg-white/90 px-3 py-2 text-sm font-semibold text-gray-500 shadow-sm transition hover:text-black"
-            aria-label="Закрыть уведомления"
-          >
-            ✕
-          </button>
-          <div className="mb-4">
-            <p className="text-lg font-bold text-[#1f2937]">Уведомления</p>
-            <p className="mt-1 text-xs text-gray-400">Последние обновления для вашего заказа</p>
+        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black/50 p-4">
+          <div className="bg-white rounded-2xl p-6 w-full max-w-sm shadow-xl relative">
+            <button
+              onClick={() => setShowNotifications(false)}
+              className="absolute top-4 right-4 text-gray-400 hover:text-black font-bold"
+            >
+              ✕
+            </button>
+            <h2 className="text-xl font-bold mb-4">Уведомления</h2>
+            <div className="space-y-4">
+              <div className="bg-stone-50 p-3 rounded-lg">
+                <p className="font-semibold text-sm">Мастер принял ваш заказ №7492 в работу!</p>
+                <span className="text-xs text-gray-400">10 мин назад</span>
+              </div>
+              <div className="bg-stone-50 p-3 rounded-lg">
+                <p className="font-semibold text-sm">ИИ сгенерировал новые идеи для вашей джинсовки.</p>
+                <span className="text-xs text-gray-400">1 час назад</span>
+              </div>
+            </div>
           </div>
-          <ul className="flex flex-col gap-3 text-sm text-[#33402a]">
-            <li className="rounded-2xl bg-stone-50 p-4">
-              <p className="font-semibold text-[#111827]">Мастер принял ваш заказ №7492 в работу!</p>
-              <p className="mt-1 text-xs text-gray-400">10 мин назад</p>
-            </li>
-            <li className="rounded-2xl bg-stone-50 p-4">
-              <p className="font-semibold text-[#111827]">ИИ сгенерировал новые идеи для вашей джинсовки.</p>
-              <p className="mt-1 text-xs text-gray-400">1 час назад</p>
-            </li>
-              • <span className="font-semibold">ИИ сгенерировал новые идеи для вашей джинсовки.</span> <span className="text-xs text-[#6b7d5a]">(1 час назад)</span>
-              <div className="mt-2 text-xs text-[#556B2F]">Посмотрите в каталоге!</div>
-            </li>
-          </ul>
         </div>
       )}
 
