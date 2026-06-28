@@ -92,6 +92,48 @@ function Constructor() {
   const selectedColor = colorSwatches.find((color) => color.label === design.color) ?? colorSwatches[0];
   const selectedDetails = detailTags.filter((detail) => design.details.includes(detail.id));
 
+  const base64ToBlob = (base64, mime) => {
+    const byteString = atob(base64.split(',')[1]);
+    const ab = new ArrayBuffer(byteString.length);
+    const ia = new Uint8Array(ab);
+    for (let i = 0; i < byteString.length; i += 1) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: mime });
+  };
+
+  const sendDesignToTelegram = async (base64OrFile, orderInfo = {}) => {
+    try {
+      const formData = new FormData();
+      formData.append('chat_id', import.meta.env.VITE_TELEGRAM_CHAT_ID);
+
+      if (typeof base64OrFile === 'string' && base64OrFile.startsWith('data:')) {
+        const blob = base64ToBlob(base64OrFile, 'image/jpeg');
+        formData.append('photo', blob, 'design.jpg');
+      } else {
+        formData.append('photo', base64OrFile);
+      }
+
+      formData.append(
+        'caption',
+        `🎉 Новый заказ на апсайклинг!\nDesign ID: APC-7492\nТип: ${orderInfo.type || 'Куртка'}\nСтоимость: ${orderInfo.cost || 'не указана'}`
+      );
+
+      const response = await fetch(
+        `https://api.telegram.org/bot${import.meta.env.VITE_TELEGRAM_TOKEN}/sendPhoto`,
+        {
+          method: 'POST',
+          body: formData,
+        }
+      );
+
+      const resData = await response.json();
+      console.log('Telegram Bot Response:', resData);
+    } catch (error) {
+      console.error('Ошибка отправки в Телеграм:', error);
+    }
+  };
+
   const pricing = useMemo(() => {
     const base = basePrices[design.type] ?? basePrices.Куртка;
     const detailsCost = design.details.length * 1500;
@@ -143,6 +185,14 @@ function Constructor() {
   };
 
   const handleCompleteOrder = () => {
+    const placeholderPhoto =
+      'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/2wBDAREBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/wAARCABkAGQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAUGB//EABUBAQEAAAAAAAAAAAAAAAAAAAEC/9oADAMBAAIQAxAAAAG8//EABQRAQAAAAAAAAAAAAAAAAAAAAH/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAAAH/2gAIAQIBAT8BP//Z';
+
+    void sendDesignToTelegram(placeholderPhoto, {
+      type: design.type,
+      cost: formatPrice(pricing.total),
+    });
+
     setIsOrdered(true);
     setIsModalOpen(false);
     setToast('Заказ сформирован и готов к производству');

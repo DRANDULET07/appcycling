@@ -132,3 +132,279 @@
       at C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
       at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:113:33
       at step (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:287:14)
+[2m19:19:29[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\Admin\appcycling\frontend\src\components\layouts\MainLayout.jsx: 'return' outside of function. (42:2)
+
+[0m [90m 40 |[31m   }
+ [90m 41 |[31m
+[31m[1m>[22m[31m[90m 42 |[31m   [36mreturn[31m response[33m.[31mjson()[33m;[31m
+ [90m    |[31m   [31m[1m^[22m[31m
+ [90m 43 |[31m }
+ [90m 44 |[31m
+ [90m 45 |[31m [36mfunction[31m [33mMainLayout[31m() {[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/Admin/appcycling/frontend/src/components/layouts/MainLayout.jsx[39m:42:2
+[33m  40 |    }
+  41 |  
+  42 |    return response.json();
+     |    ^
+  43 |  }
+  44 |  [39m
+      at constructor (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:6616:19)
+      at JSXParserMixin.parseReturnStatement (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13153:12)
+      at JSXParserMixin.parseStatementContent (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12815:21)
+      at JSXParserMixin.parseStatementLike (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12784:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12761:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13333:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13326:10)
+      at JSXParserMixin.parseProgram (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12639:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12629:25)
+      at JSXParserMixin.parse (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:14505:25)
+      at parse (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:261:32)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:223:11)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:189:28
+      at C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:113:33
+      at step (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:287:14)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:223:11)
+[2m19:19:29[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\Admin\appcycling\frontend\src\components\layouts\MainLayout.jsx: 'return' outside of function. (42:2)
+
+[0m [90m 40 |[31m   }
+ [90m 41 |[31m
+[31m[1m>[22m[31m[90m 42 |[31m   [36mreturn[31m response[33m.[31mjson()[33m;[31m
+ [90m    |[31m   [31m[1m^[22m[31m
+ [90m 43 |[31m }
+ [90m 44 |[31m
+ [90m 45 |[31m [36mfunction[31m [33mMainLayout[31m() {[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/Admin/appcycling/frontend/src/components/layouts/MainLayout.jsx[39m:42:2
+[33m  40 |    }
+  41 |  
+  42 |    return response.json();
+     |    ^
+  43 |  }
+  44 |  [39m
+      at constructor (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:6616:19)
+      at JSXParserMixin.parseReturnStatement (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13153:12)
+      at JSXParserMixin.parseStatementContent (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12815:21)
+      at JSXParserMixin.parseStatementLike (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12784:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12761:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13333:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13326:10)
+      at JSXParserMixin.parseProgram (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12639:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12629:25)
+      at JSXParserMixin.parse (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:14505:25)
+      at parse (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:261:32)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:223:11)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:189:28
+      at C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:113:33
+      at step (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:287:14)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:223:11)
+[2m19:19:29[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\Admin\appcycling\frontend\src\components\layouts\MainLayout.jsx: 'return' outside of function. (42:2)
+
+[0m [90m 40 |[31m   }
+ [90m 41 |[31m
+[31m[1m>[22m[31m[90m 42 |[31m   [36mreturn[31m response[33m.[31mjson()[33m;[31m
+ [90m    |[31m   [31m[1m^[22m[31m
+ [90m 43 |[31m }
+ [90m 44 |[31m
+ [90m 45 |[31m [36mfunction[31m [33mMainLayout[31m() {[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/Admin/appcycling/frontend/src/components/layouts/MainLayout.jsx[39m:42:2
+[33m  40 |    }
+  41 |  
+  42 |    return response.json();
+     |    ^
+  43 |  }
+  44 |  [39m
+      at constructor (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:6616:19)
+      at JSXParserMixin.parseReturnStatement (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13153:12)
+      at JSXParserMixin.parseStatementContent (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12815:21)
+      at JSXParserMixin.parseStatementLike (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12784:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12761:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13333:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13326:10)
+      at JSXParserMixin.parseProgram (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12639:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12629:25)
+      at JSXParserMixin.parse (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:14505:25)
+      at parse (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:261:32)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:223:11)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:189:28
+      at C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:113:33
+      at step (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:287:14)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:223:11)
+[2m19:19:31[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\Admin\appcycling\frontend\src\components\layouts\MainLayout.jsx: 'return' outside of function. (42:2)
+
+[0m [90m 40 |[31m   }
+ [90m 41 |[31m
+[31m[1m>[22m[31m[90m 42 |[31m   [36mreturn[31m response[33m.[31mjson()[33m;[31m
+ [90m    |[31m   [31m[1m^[22m[31m
+ [90m 43 |[31m }
+ [90m 44 |[31m
+ [90m 45 |[31m [36mfunction[31m [33mMainLayout[31m() {[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/Admin/appcycling/frontend/src/components/layouts/MainLayout.jsx[39m:42:2
+[33m  40 |    }
+  41 |  
+  42 |    return response.json();
+     |    ^
+  43 |  }
+  44 |  [39m
+      at constructor (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:6616:19)
+      at JSXParserMixin.parseReturnStatement (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13153:12)
+      at JSXParserMixin.parseStatementContent (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12815:21)
+      at JSXParserMixin.parseStatementLike (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12784:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12761:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13333:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13326:10)
+      at JSXParserMixin.parseProgram (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12639:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12629:25)
+      at JSXParserMixin.parse (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:14505:25)
+      at parse (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:261:32)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:223:11)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:189:28
+      at C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:113:33
+      at step (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:287:14)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:223:11)
+[2m19:19:31[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\Admin\appcycling\frontend\src\components\layouts\MainLayout.jsx: 'return' outside of function. (42:2)
+
+[0m [90m 40 |[31m   }
+ [90m 41 |[31m
+[31m[1m>[22m[31m[90m 42 |[31m   [36mreturn[31m response[33m.[31mjson()[33m;[31m
+ [90m    |[31m   [31m[1m^[22m[31m
+ [90m 43 |[31m }
+ [90m 44 |[31m
+ [90m 45 |[31m [36mfunction[31m [33mMainLayout[31m() {[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/Admin/appcycling/frontend/src/components/layouts/MainLayout.jsx[39m:42:2
+[33m  40 |    }
+  41 |  
+  42 |    return response.json();
+     |    ^
+  43 |  }
+  44 |  [39m
+      at constructor (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:6616:19)
+      at JSXParserMixin.parseReturnStatement (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13153:12)
+      at JSXParserMixin.parseStatementContent (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12815:21)
+      at JSXParserMixin.parseStatementLike (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12784:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12761:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13333:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13326:10)
+      at JSXParserMixin.parseProgram (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12639:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12629:25)
+      at JSXParserMixin.parse (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:14505:25)
+      at parse (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:261:32)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:223:11)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:189:28
+      at C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:113:33
+      at step (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:287:14)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:223:11)
+[2m19:19:31[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\Admin\appcycling\frontend\src\components\layouts\MainLayout.jsx: 'return' outside of function. (42:2)
+
+[0m [90m 40 |[31m   }
+ [90m 41 |[31m
+[31m[1m>[22m[31m[90m 42 |[31m   [36mreturn[31m response[33m.[31mjson()[33m;[31m
+ [90m    |[31m   [31m[1m^[22m[31m
+ [90m 43 |[31m }
+ [90m 44 |[31m
+ [90m 45 |[31m [36mfunction[31m [33mMainLayout[31m() {[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/Admin/appcycling/frontend/src/components/layouts/MainLayout.jsx[39m:42:2
+[33m  40 |    }
+  41 |  
+  42 |    return response.json();
+     |    ^
+  43 |  }
+  44 |  [39m
+      at constructor (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:6616:19)
+      at JSXParserMixin.parseReturnStatement (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13153:12)
+      at JSXParserMixin.parseStatementContent (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12815:21)
+      at JSXParserMixin.parseStatementLike (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12784:17)
+      at JSXParserMixin.parseModuleItem (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12761:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13333:36)
+      at JSXParserMixin.parseBlockBody (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13326:10)
+      at JSXParserMixin.parseProgram (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12639:10)
+      at JSXParserMixin.parseTopLevel (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12629:25)
+      at JSXParserMixin.parse (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:14505:25)
+      at parse (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:14539:38)
+      at parser (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\parser\index.js:41:34)
+      at parser.next (<anonymous>)
+      at normalizeFile (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transformation\normalize-file.js:51:37)
+      at normalizeFile.next (<anonymous>)
+      at run (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transformation\index.js:22:50)
+      at run.next (<anonymous>)
+      at transform (C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\transform.js:22:33)
+      at transform.next (<anonymous>)
+      at step (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:261:32)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:223:11)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:189:28
+      at C:\Users\Admin\appcycling\frontend\node_modules\@babel\core\lib\gensync-utils\async.js:67:7
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:113:33
+      at step (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:287:14)
+      at C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:273:13
+      at async.call.result.err.err (C:\Users\Admin\appcycling\frontend\node_modules\gensync\index.js:223:11)
