@@ -145,7 +145,15 @@ function Catalog() {
       </div>
 
       {showNotifications && (
-        <div className="fixed left-1/2 top-24 z-50 w-[min(96vw,420px)] -translate-x-1/2 rounded-3xl border border-[#d6e9c6] bg-white p-5 shadow-[0_18px_80px_rgba(45,61,18,0.18)]">
+        <div className="fixed left-1/2 top-24 z-50 w-[min(96vw,420px)] -translate-x-1/2 rounded-3xl border border-[#d6e9c6] bg-white p-5 shadow-[0_18px_80px_rgba(45,61,18,0.18)] relative">
+          <button
+            type="button"
+            onClick={() => setShowNotifications(false)}
+            className="absolute top-3 right-3 rounded-full px-2 py-1 text-xs font-semibold text-gray-500 transition hover:text-black"
+            aria-label="Закрыть уведомления"
+          >
+            ✕
+          </button>
           <div className="mb-3 flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#e8f5d8] text-[#3f6215]">
               <Bell size={18} />
