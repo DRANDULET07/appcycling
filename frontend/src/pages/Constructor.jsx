@@ -92,39 +92,51 @@ function Constructor() {
   const selectedColor = colorSwatches.find((color) => color.label === design.color) ?? colorSwatches[0];
   const selectedDetails = detailTags.filter((detail) => design.details.includes(detail.id));
 
-  const sendDesignToTelegram = async (base64String, orderInfo = {}) => {
+  const sendDesignToTelegram = async (imageInput) => {
     try {
+      if (!imageInput) {
+        console.error('Ошибка: imageInput пустой!');
+        return;
+      }
+
       const formData = new FormData();
       formData.append('chat_id', import.meta.env.VITE_TELEGRAM_CHAT_ID);
+      formData.append('caption', '🎉 Новый заказ на апсайклинг!\nDesign ID: APC-7492\nТип: Куртка\nСтоимость: 14 000 ₸');
 
-      const base64ToBlob = (base64) => {
-        const binaryString = atob(base64.split(',')[1]);
+      let imageBlob;
+
+      if (imageInput instanceof Blob) {
+        imageBlob = imageInput;
+      } else if (typeof imageInput === 'string' && imageInput.startsWith('data:')) {
+        const binaryString = atob(imageInput.split(',')[1]);
         const len = binaryString.length;
         const bytes = new Uint8Array(len);
         for (let i = 0; i < len; i += 1) {
           bytes[i] = binaryString.charCodeAt(i);
         }
-        return new Blob([bytes], { type: 'image/jpeg' });
-      };
+        imageBlob = new Blob([bytes], { type: 'image/jpeg' });
+      } else if (typeof imageInput === 'string') {
+        const response = await fetch(imageInput);
+        imageBlob = await response.blob();
+      }
 
-      const blob = base64ToBlob(base64String);
-      formData.append('photo', blob, 'design.jpg');
+      if (!imageBlob) {
+        console.error('Ошибка: не удалось получить imageBlob для отправки.');
+        return;
+      }
 
-      const caption = `🎉 Новый заказ на апсайклинг!\nDesign ID: APC-7492\nТип: ${orderInfo.type || 'Куртка'}\nСтоимость: ${orderInfo.cost || 'не указана'}`;
-      formData.append('caption', caption);
+      formData.append('photo', imageBlob, 'design.jpg');
+      console.log('Отправка в Telegram следующего Blob:', imageBlob);
 
-      const response = await fetch(
-        `https://api.telegram.org/bot${import.meta.env.VITE_TELEGRAM_TOKEN}/sendPhoto`,
-        {
-          method: 'POST',
-          body: formData,
-        }
-      );
+      const res = await fetch(`https://api.telegram.org/bot${import.meta.env.VITE_TELEGRAM_TOKEN}/sendPhoto`, {
+        method: 'POST',
+        body: formData,
+      });
 
-      const resData = await response.json();
+      const resData = await res.json();
       console.log('Telegram Bot Response:', resData);
     } catch (error) {
-      console.error('Ошибка отправки в Телеграм:', error);
+      console.error('Критическая ошибка при отправке фото в Telegram:', error);
     }
   };
 
@@ -182,10 +194,8 @@ function Constructor() {
     const placeholderPhoto =
       'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/2wBDAREBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/wAARCABkAGQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAUGB//EABUBAQEAAAAAAAAAAAAAAAAAAAEC/9oADAMBAAIQAxAAAAG8//EABQRAQAAAAAAAAAAAAAAAAAAAAH/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAAAH/2gAIAQIBAT8BP//Z';
 
-    void sendDesignToTelegram(placeholderPhoto, {
-      type: design.type,
-      cost: formatPrice(pricing.total),
-    });
+    console.log('sendDesignToTelegram input:', { type: typeof placeholderPhoto, preview: placeholderPhoto?.slice?.(0, 64) });
+    void sendDesignToTelegram(placeholderPhoto);
 
     setIsOrdered(true);
     setIsModalOpen(false);
