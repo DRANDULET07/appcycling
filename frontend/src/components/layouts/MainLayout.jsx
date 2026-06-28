@@ -8,40 +8,6 @@ const tabs = [
   { to: '/constructor', label: 'Конструктор', icon: Palette },
 ];
 
-const TELEGRAM_BOT_TOKEN = import.meta.env.VITE_TELEGRAM_TOKEN;
-const TELEGRAM_CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID;
-
-async function sendPhotoToTelegram(file) {
-  const formData = new FormData();
-  formData.append('chat_id', TELEGRAM_CHAT_ID);
-  formData.append('photo', file);
-  formData.append('caption', 'Фото для ИИ-анализа одежды из Appcycling');
-
-  try {
-    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendPhoto`, {
-      method: 'POST',
-      body: formData,
-    });
-
-    const resData = await response.json();
-    console.log('Telegram Bot Response:', resData);
-    if (!response.ok) {
-      throw new Error('Не удалось отправить фото в Telegram');
-    }
-
-    return resData;
-  } catch (error) {
-    console.error('Ошибка отправки в Телеграм:', error);
-    throw error;
-  }
-}
-  if (!response.ok) {
-    throw new Error('Не удалось отправить фото в Telegram');
-  }
-
-  return response.json();
-
-
 function MainLayout() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
@@ -79,9 +45,6 @@ function MainLayout() {
     }
 
     setIsAiChatOpen(true);
-    sendPhotoToTelegram(file).catch((error) => {
-      console.error(error);
-    });
   };
 
   const goToConstructor = () => {
