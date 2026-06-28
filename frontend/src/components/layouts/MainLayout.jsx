@@ -40,7 +40,7 @@ async function sendPhotoToTelegram(file) {
   }
 
   return response.json();
-}
+
 
 function MainLayout() {
   const navigate = useNavigate();
