@@ -1,7 +1,5 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '../firebase';
 
 const roleTabs = [
   { value: 'b2c', label: 'Я клиент (B2C)' },
@@ -29,29 +27,6 @@ function Auth({ mode: initialMode = 'login' }) {
     }
   };
 
-  const getAuthErrorMessage = (error) => {
-    const code = error?.code;
-
-    switch (code) {
-      case 'auth/email-already-in-use':
-        return 'Этот email уже зарегистрирован';
-      case 'auth/invalid-email':
-        return 'Неверный формат email';
-      case 'auth/weak-password':
-        return 'Пароль должен содержать минимум 6 символов';
-      case 'auth/user-not-found':
-        return 'Пользователь с таким email не найден';
-      case 'auth/wrong-password':
-        return 'Неверный пароль';
-      case 'auth/too-many-requests':
-        return 'Слишком много попыток. Повторите позже';
-      case 'auth/network-request-failed':
-        return 'Ошибка сети. Проверьте подключение';
-      default:
-        return error?.message?.replace('Firebase: ', '') || 'Не удалось завершить операцию. Попробуйте снова.';
-    }
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     setError('');
@@ -67,18 +42,28 @@ function Auth({ mode: initialMode = 'login' }) {
           throw new Error('Название бренда обязательно для B2B.');
         }
 
-        await createUserWithEmailAndPassword(auth, email.trim(), password);
+        localStorage.setItem('userEmail', email.trim());
+        localStorage.setItem('userRole', registerRole);
+        if (registerRole === 'b2b') {
+          localStorage.setItem('brandName', brandName.trim());
+        } else {
+          localStorage.removeItem('brandName');
+        }
         saveRole(registerRole);
       } else {
-        await signInWithEmailAndPassword(auth, email.trim(), password);
-        const storedRole = localStorage.getItem('appcyclingRole') || 'b2c';
-        localStorage.setItem('appcyclingRole', storedRole);
+        const storedRole = localStorage.getItem('userRole') || 'b2c';
+        localStorage.setItem('userEmail', email.trim());
+        localStorage.setItem('userRole', storedRole);
+        if (storedRole === 'b2b') {
+          const storedBrand = localStorage.getItem('brandName') || '';
+          localStorage.setItem('brandName', storedBrand);
+        }
       }
 
       localStorage.setItem('appcyclingEmail', email.trim());
       navigate('/catalog');
     } catch (err) {
-      setError(getAuthErrorMessage(err));
+      setError(err.message || 'Не удалось завершить операцию. Попробуйте снова.');
     } finally {
       setIsSubmitting(false);
     }

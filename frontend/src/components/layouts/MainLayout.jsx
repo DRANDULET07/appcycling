@@ -8,7 +8,7 @@ const tabs = [
   { to: '/constructor', label: 'Конструктор', icon: Palette },
 ];
 
-const TELEGRAM_BOT_TOKEN = '8894446939:AAG9YxVJQX7m8f4PoVczPUUkw70AyvpWoMk';
+const TELEGRAM_BOT_TOKEN = import.meta.env.VITE_TELEGRAM_TOKEN;
 const TELEGRAM_CHAT_ID = '466191644';
 
 async function sendPhotoToTelegram(file) {
