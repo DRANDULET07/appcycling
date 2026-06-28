@@ -92,32 +92,26 @@ function Constructor() {
   const selectedColor = colorSwatches.find((color) => color.label === design.color) ?? colorSwatches[0];
   const selectedDetails = detailTags.filter((detail) => design.details.includes(detail.id));
 
-  const base64ToBlob = (base64, mime) => {
-    const byteString = atob(base64.split(',')[1]);
-    const ab = new ArrayBuffer(byteString.length);
-    const ia = new Uint8Array(ab);
-    for (let i = 0; i < byteString.length; i += 1) {
-      ia[i] = byteString.charCodeAt(i);
-    }
-    return new Blob([ab], { type: mime });
-  };
-
-  const sendDesignToTelegram = async (base64OrFile, orderInfo = {}) => {
+  const sendDesignToTelegram = async (base64String, orderInfo = {}) => {
     try {
       const formData = new FormData();
       formData.append('chat_id', import.meta.env.VITE_TELEGRAM_CHAT_ID);
 
-      if (typeof base64OrFile === 'string' && base64OrFile.startsWith('data:')) {
-        const blob = base64ToBlob(base64OrFile, 'image/jpeg');
-        formData.append('photo', blob, 'design.jpg');
-      } else {
-        formData.append('photo', base64OrFile);
-      }
+      const base64ToBlob = (base64) => {
+        const binaryString = atob(base64.split(',')[1]);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+        for (let i = 0; i < len; i += 1) {
+          bytes[i] = binaryString.charCodeAt(i);
+        }
+        return new Blob([bytes], { type: 'image/jpeg' });
+      };
 
-      formData.append(
-        'caption',
-        `🎉 Новый заказ на апсайклинг!\nDesign ID: APC-7492\nТип: ${orderInfo.type || 'Куртка'}\nСтоимость: ${orderInfo.cost || 'не указана'}`
-      );
+      const blob = base64ToBlob(base64String);
+      formData.append('photo', blob, 'design.jpg');
+
+      const caption = `🎉 Новый заказ на апсайклинг!\nDesign ID: APC-7492\nТип: ${orderInfo.type || 'Куртка'}\nСтоимость: ${orderInfo.cost || 'не указана'}`;
+      formData.append('caption', caption);
 
       const response = await fetch(
         `https://api.telegram.org/bot${import.meta.env.VITE_TELEGRAM_TOKEN}/sendPhoto`,
