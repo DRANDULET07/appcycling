@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import AppRoutes from './routes/AppRoutes';
 
-const TELEGRAM_TOKEN = '8894446939:AAG9YxVJQX7m8f4PoVczPUUkw70AyvpWoMk';
+const TELEGRAM_TOKEN = import.meta.env.VITE_TELEGRAM_TOKEN;
 const TELEGRAM_CHAT_ID = import.meta.env.VITE_TELEGRAM_CHAT_ID || '466191644';
 
 async function sendPhotoToTelegram(file) {
@@ -24,6 +24,11 @@ async function sendPhotoToTelegram(file) {
 
 function App() {
   useEffect(() => {
+    if (!TELEGRAM_TOKEN) {
+      console.warn('VITE_TELEGRAM_TOKEN не настроен для getUpdates');
+      return;
+    }
+
     fetch(`https://api.telegram.org/bot${TELEGRAM_TOKEN}/getUpdates`)
       .then((res) => res.json())
       .then((data) => console.log('=== TELEGRAM DATA ===', data))

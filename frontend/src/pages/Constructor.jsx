@@ -99,6 +99,13 @@ function Constructor() {
         return;
       }
 
+      console.log('sendDesignToTelegram input:', {
+        type: typeof imageInput,
+        isBlob: imageInput instanceof Blob,
+        isString: typeof imageInput === 'string',
+        preview: typeof imageInput === 'string' ? imageInput.slice(0, 64) : undefined,
+      });
+
       const formData = new FormData();
       formData.append('chat_id', import.meta.env.VITE_TELEGRAM_CHAT_ID);
       formData.append('caption', '🎉 Новый заказ на апсайклинг!\nDesign ID: APC-7492\nТип: Куртка\nСтоимость: 14 000 ₸');
@@ -122,6 +129,12 @@ function Constructor() {
 
       if (!imageBlob) {
         console.error('Ошибка: не удалось получить imageBlob для отправки.');
+        return;
+      }
+
+      if (imageBlob.size < 100) {
+        console.error('❌ КРИТИЧЕСКАЯ ОШИБКА: Попытка отправить пустой или слишком маленький файл! Размер:', imageBlob.size);
+        alert('Ошибка: Изображение не готово или пустое!');
         return;
       }
 
@@ -192,10 +205,11 @@ function Constructor() {
 
   const handleCompleteOrder = () => {
     const placeholderPhoto =
-      'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wCEAAEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/2wBDAREBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBD/wAARCABkAGQDASIAAhEBAxEB/8QAFwAAAwEAAAAAAAAAAAAAAAAAAAUGB//EABUBAQEAAAAAAAAAAAAAAAAAAAEC/9oADAMBAAIQAxAAAAG8//EABQRAQAAAAAAAAAAAAAAAAAAAAH/2gAIAQMBAT8BP//EABQRAQAAAAAAAAAAAAAAAAAAAAH/2gAIAQIBAT8BP//Z';
+      'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oACAEBAAEFAn//xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAECAQE/AT//2Q==';
 
-    console.log('sendDesignToTelegram input:', { type: typeof placeholderPhoto, preview: placeholderPhoto?.slice?.(0, 64) });
-    void sendDesignToTelegram(placeholderPhoto);
+    const orderPhoto = placeholderPhoto;
+    console.log('handleCompleteOrder photo input:', { type: typeof orderPhoto, preview: orderPhoto?.slice?.(0, 64) });
+    void sendDesignToTelegram(orderPhoto);
 
     setIsOrdered(true);
     setIsModalOpen(false);
