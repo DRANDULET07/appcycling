@@ -10,7 +10,7 @@ import {
   Type,
   X,
 } from 'lucide-react';
-import { useLocation, useOutletContext } from 'react-router-dom';
+import { useLocation, useOutletContext, useSearchParams } from 'react-router-dom';
 
 const tools = [
   { id: 'color', label: 'Цвет', icon: Palette },
@@ -42,32 +42,49 @@ const B2B_MAX_RUN = 500;
 
 const formatPrice = (value) => `${value.toLocaleString('ru-RU')} ₸`;
 
-const getInitialType = (locationState) => {
+const getInitialDesign = (locationState, searchParams) => {
   const selectedItem = locationState?.selectedItem;
   const selectedTarget = locationState?.selectedTarget;
+  const service = searchParams.get('service');
+  const queryType = searchParams.get('type');
+  const queryColor = searchParams.get('color');
+
+  const serviceDefaults = {
+    repair: { type: 'Куртка', color: 'Оливковый', details: ['zipper'] },
+    restitch: { type: 'Джинсовка', color: 'Графит', details: ['pockets'] },
+    ai: { type: 'Худи', color: 'Индиго', details: ['hood'] },
+  };
+
+  if (service && serviceDefaults[service]) {
+    return serviceDefaults[service];
+  }
+
+  if (queryType === 'hoodie') {
+    return {
+      type: 'Худи',
+      color: queryColor === 'olive' ? 'Оливковый' : 'Индиго',
+      details: ['hood'],
+    };
+  }
 
   if (selectedItem === 'Худи' || selectedTarget === 'hoodie') {
-    return 'Худи';
+    return { type: 'Худи', color: 'Оливковый', details: [] };
   }
 
   if (selectedItem === 'Джинсовка' || selectedTarget === 'jacket') {
-    return 'Джинсовка';
+    return { type: 'Джинсовка', color: 'Оливковый', details: [] };
   }
 
-  return 'Куртка';
+  return { type: 'Куртка', color: 'Оливковый', details: [] };
 };
 
 function Constructor() {
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const { userCapturedPhoto } = useOutletContext();
-  const initialType = useMemo(() => getInitialType(location.state), [location.state]);
+  const initialDesign = useMemo(() => getInitialDesign(location.state, searchParams), [location.state, searchParams]);
   const [activeTool, setActiveTool] = useState('color');
-  const [design, setDesign] = useState({
-    type: initialType,
-    color: 'Оливковый',
-    details: [],
-    customText: '',
-  });
+  const [design, setDesign] = useState(initialDesign);
   const [runQuantity, setRunQuantity] = useState(50);
   const [isGeneratingTechPack, setIsGeneratingTechPack] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -78,8 +95,8 @@ function Constructor() {
   const isB2B = role === 'b2b';
 
   useEffect(() => {
-    setDesign((current) => ({ ...current, type: initialType }));
-  }, [initialType]);
+    setDesign(initialDesign);
+  }, [initialDesign]);
 
   useEffect(() => {
     if (!toast) {
@@ -306,12 +323,7 @@ function Constructor() {
   };
 
   const handleResetDesign = () => {
-    setDesign({
-      type: initialType,
-      color: 'Оливковый',
-      details: [],
-      customText: '',
-    });
+    setDesign(initialDesign);
     setActiveTool('color');
     setIsOrdered(false);
     setToast(null);
@@ -410,14 +422,14 @@ function Constructor() {
           >
             <div className="flex items-center justify-between gap-3">
               <div>
-                <p className="text-sm font-semibold uppercase tracking-[0.2em] text-white/80">AI Preview</p>
-                <h3 className="mt-2 text-xl font-semibold text-white">
-                  {design.type} · {design.color}
-                </h3>
-              </div>
-              <div className="rounded-full bg-white/20 p-2 text-white">
-                <Sparkles size={18} />
-              </div>
+                  <p className="text-sm font-semibold uppercase tracking-widest text-stone-700">
+                    AI Preview
+                  </p>
+                  <h3 className="mt-2 text-3xl font-bold text-stone-900">
+                    {design.type} · {design.color}
+                  </h3>
+                </div>
+                <div className="rounded-full bg-white/20 p-2 text-stone-800">
             </div>
 
             <div className="mt-6 rounded-2xl border border-white/30 bg-white/25 p-4 shadow-sm backdrop-blur-sm">

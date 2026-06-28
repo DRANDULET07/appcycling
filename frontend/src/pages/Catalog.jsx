@@ -7,6 +7,7 @@ const BASE_URL = 'http://127.0.0.1:8000';
 const services = [
   {
     id: 1,
+    serviceKey: 'repair',
     title: 'Ремонт & Апгрейд',
     description: 'Вернём любимой вещи свежесть, комфорт и характер без лишней траты.',
     price: 'от 5 000 ₸',
@@ -14,6 +15,7 @@ const services = [
   },
   {
     id: 2,
+    serviceKey: 'restitch',
     title: 'Полный перешив вещи',
     description: 'Обновим силуэт под новый стиль и сделаем образ завершённым.',
     price: 'от 9 500 ₸',
@@ -21,6 +23,7 @@ const services = [
   },
   {
     id: 3,
+    serviceKey: 'ai',
     title: 'Авторский ИИ-Апсайклинг',
     description: 'Соберём уникальный продукт из переработанного текстиля и материалов.',
     price: 'от 14 000 ₸',
@@ -40,6 +43,7 @@ function Catalog() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [error, setError] = useState('');
   const [likedIdeas, setLikedIdeas] = useState({});
+  const [showNotifications, setShowNotifications] = useState(false);
 
   const role = window.localStorage.getItem('appcyclingRole') || 'b2c';
   const isB2B = role === 'b2b';
@@ -52,6 +56,15 @@ function Catalog() {
     const timer = window.setTimeout(() => setIsLoading(false), 800);
     return () => window.clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    if (!showNotifications) {
+      return undefined;
+    }
+
+    const timer = window.setTimeout(() => setShowNotifications(false), 4500);
+    return () => window.clearTimeout(timer);
+  }, [showNotifications]);
 
   const handleGenerateIdeas = async () => {
     try {
@@ -84,11 +97,20 @@ function Catalog() {
     }
   };
 
-  const handleSelectService = () => {
-    navigate('/constructor');
+  const handleSelectService = (serviceKey) => {
+    navigate(`/constructor?service=${serviceKey}`);
+  };
+
+  const handleOpenNotifications = () => {
+    setShowNotifications(true);
   };
 
   const handleOpenIdea = (item) => {
+    if (item.title === 'Худи') {
+      navigate('/constructor?type=hoodie&color=olive');
+      return;
+    }
+
     navigate('/constructor', {
       state: {
         selectedItem: item.title,
@@ -110,12 +132,40 @@ function Catalog() {
             <h2 className="text-xl font-semibold text-ink">{catalogTitle}</h2>
             <p className="mt-1 text-sm text-gray-500">{catalogSubtitle}</p>
           </div>
-          <div className="relative flex h-10 w-10 items-center justify-center rounded-full bg-[#f7f7ef]">
-            <Bell size={20} className="text-[#556B2F]" />
+          <button
+            type="button"
+            onClick={handleOpenNotifications}
+            className="relative flex h-10 w-10 items-center justify-center rounded-full bg-[#f7f7ef] text-[#556B2F] transition hover:bg-[#e5f0dc]"
+            aria-label="Открыть уведомления"
+          >
+            <Bell size={20} />
             <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-[#556B2F]" />
-          </div>
+          </button>
         </div>
       </div>
+
+      {showNotifications && (
+        <div className="fixed left-1/2 top-24 z-50 w-[min(96vw,420px)] -translate-x-1/2 rounded-3xl border border-[#d6e9c6] bg-white p-5 shadow-[0_18px_80px_rgba(45,61,18,0.18)]">
+          <div className="mb-3 flex items-center gap-3">
+            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#e8f5d8] text-[#3f6215]">
+              <Bell size={18} />
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-[#27412a]">🔔 Уведомления</p>
+              <p className="text-xs text-[#6b7d5a]">Сейчас</p>
+            </div>
+          </div>
+          <ul className="space-y-3 text-sm text-[#33402a]">
+            <li className="rounded-2xl bg-[#f3f7e2] p-3">
+              • <span className="font-semibold">Мастер принял ваш заказ №7492 в работу!</span> <span className="text-xs text-[#6b7d5a]">(10 мин назад)</span>
+            </li>
+            <li className="rounded-2xl bg-[#f7faf0] p-3">
+              • <span className="font-semibold">ИИ сгенерировал новые идеи для вашей джинсовки.</span> <span className="text-xs text-[#6b7d5a]">(1 час назад)</span>
+              <div className="mt-2 text-xs text-[#556B2F]">Посмотрите в каталоге!</div>
+            </li>
+          </ul>
+        </div>
+      )}
 
       {error ? (
         <div className="rounded-2xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>
@@ -146,7 +196,7 @@ function Catalog() {
               <p className="mt-2 text-sm text-gray-600">{service.description}</p>
               <button
                 type="button"
-                onClick={handleSelectService}
+                onClick={() => handleSelectService(service.serviceKey)}
                 className="mt-4 w-full rounded-2xl bg-[#556B2F] px-4 py-2.5 text-sm font-semibold text-white"
               >
                 Выбрать услугу
