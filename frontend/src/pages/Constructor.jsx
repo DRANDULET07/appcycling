@@ -422,14 +422,16 @@ function Constructor() {
           >
             <div className="flex items-center justify-between gap-3">
               <div>
-                  <p className="text-sm font-semibold uppercase tracking-widest text-stone-700">
-                    AI Preview
-                  </p>
-                  <h3 className="mt-2 text-3xl font-bold text-stone-900">
-                    {design.type} · {design.color}
-                  </h3>
-                </div>
-                <div className="rounded-full bg-white/20 p-2 text-stone-800">
+                <p className="text-sm font-semibold uppercase tracking-widest text-stone-700">
+                  AI Preview
+                </p>
+                <h3 className="mt-2 text-3xl font-bold text-stone-900">
+                  {design.type} · {design.color}
+                </h3>
+              </div>
+              <div className="rounded-full bg-white/20 p-2 text-stone-800">
+                <Sparkles size={18} />
+              </div>
             </div>
 
             <div className="mt-6 rounded-2xl border border-white/30 bg-white/25 p-4 shadow-sm backdrop-blur-sm">
