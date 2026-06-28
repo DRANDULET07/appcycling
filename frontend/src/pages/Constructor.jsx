@@ -45,9 +45,13 @@ const formatPrice = (value) => `${value.toLocaleString('ru-RU')} ₸`;
 const getInitialDesign = (locationState, searchParams) => {
   const selectedItem = locationState?.selectedItem;
   const selectedTarget = locationState?.selectedTarget;
-  const service = searchParams.get('service');
-  const queryType = searchParams.get('type');
-  const queryColor = searchParams.get('color');
+  const serviceRaw = searchParams.get('service');
+  const typeRaw = searchParams.get('type');
+  const colorRaw = searchParams.get('color');
+
+  const service = serviceRaw ? serviceRaw.trim() : null;
+  const queryType = typeRaw ? typeRaw.trim() : null;
+  const queryColor = colorRaw ? colorRaw.trim() : null;
 
   const serviceDefaults = {
     repair: { type: 'Куртка', color: 'Оливковый', details: ['zipper'] },
