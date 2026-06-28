@@ -11,6 +11,7 @@ const tabs = [
 function MainLayout() {
   const navigate = useNavigate();
   const fileInputRef = useRef(null);
+  const [userCapturedPhoto, setUserCapturedPhoto] = useState(null);
   const [isAiChatOpen, setIsAiChatOpen] = useState(false);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [aiMessage, setAiMessage] = useState('');
@@ -44,6 +45,7 @@ function MainLayout() {
       return;
     }
 
+    setUserCapturedPhoto(file);
     setIsAiChatOpen(true);
   };
 
@@ -55,6 +57,7 @@ function MainLayout() {
   const tryAnotherPhoto = () => {
     setIsAiChatOpen(false);
     setAiMessage('');
+    setUserCapturedPhoto(null);
 
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
@@ -66,7 +69,7 @@ function MainLayout() {
   return (
     <div className="min-h-screen bg-white pb-24 text-ink">
       <main className="px-4 py-4 sm:px-6">
-        <Outlet />
+        <Outlet context={{ userCapturedPhoto }} />
       </main>
 
       <input

@@ -10,7 +10,7 @@ import {
   Type,
   X,
 } from 'lucide-react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useOutletContext } from 'react-router-dom';
 
 const tools = [
   { id: 'color', label: 'Цвет', icon: Palette },
@@ -59,6 +59,7 @@ const getInitialType = (locationState) => {
 
 function Constructor() {
   const location = useLocation();
+  const { userCapturedPhoto } = useOutletContext();
   const initialType = useMemo(() => getInitialType(location.state), [location.state]);
   const [activeTool, setActiveTool] = useState('color');
   const [design, setDesign] = useState({
@@ -291,16 +292,13 @@ function Constructor() {
   };
 
   const handleCompleteOrder = async () => {
-    const designBlob = await createDesignImageBlob();
-
-    if (!designBlob) {
-      console.error('Не удалось создать изображение дизайна для отправки.');
-      alert('Ошибка формирования изображения для Telegram. Попробуйте еще раз.');
+    if (!userCapturedPhoto) {
+      alert('Сначала сделайте фотографию своей вещи!');
       return;
     }
 
-    console.log('handleCompleteOrder отправляет Blob:', designBlob);
-    await sendDesignToTelegram(designBlob);
+    console.log('handleCompleteOrder отправляет userCapturedPhoto:', userCapturedPhoto);
+    await sendDesignToTelegram(userCapturedPhoto);
 
     setIsOrdered(true);
     setIsModalOpen(false);
