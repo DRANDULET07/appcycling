@@ -92,6 +92,93 @@ function Constructor() {
   const selectedColor = colorSwatches.find((color) => color.label === design.color) ?? colorSwatches[0];
   const selectedDetails = detailTags.filter((detail) => design.details.includes(detail.id));
 
+  const createDesignImageBlob = async () => {
+    const canvas = document.createElement('canvas');
+    canvas.width = 800;
+    canvas.height = 980;
+    const ctx = canvas.getContext('2d');
+
+    if (!ctx) {
+      console.error('Canvas context не доступен');
+      return null;
+    }
+
+    const bg = selectedColor.value || '#556B2F';
+    ctx.fillStyle = '#f7f7ef';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    const previewX = 70;
+    const previewY = 80;
+    const previewW = 660;
+    const previewH = 520;
+
+    ctx.fillStyle = bg;
+    ctx.fillRect(previewX, previewY, previewW, previewH);
+    ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+    ctx.lineWidth = 12;
+    ctx.strokeRect(previewX, previewY, previewW, previewH);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '700 36px sans-serif';
+    ctx.fillText(design.type, previewX + 28, previewY + 58);
+
+    ctx.font = '500 24px sans-serif';
+    ctx.fillText(design.color, previewX + 28, previewY + 96);
+
+    const wrapText = (text, x, y, maxWidth, lineHeight) => {
+      const words = text.split(' ');
+      let line = '';
+      let lineY = y;
+
+      for (let n = 0; n < words.length; n += 1) {
+        const testLine = line + words[n] + ' ';
+        const metrics = ctx.measureText(testLine);
+        const testWidth = metrics.width;
+        if (testWidth > maxWidth && n > 0) {
+          ctx.fillText(line.trim(), x, lineY);
+          line = words[n] + ' ';
+          lineY += lineHeight;
+        } else {
+          line = testLine;
+        }
+      }
+
+      ctx.fillText(line.trim(), x, lineY);
+      return lineY + lineHeight;
+    };
+
+    if (design.customText.trim()) {
+      ctx.font = '600 24px sans-serif';
+      ctx.fillStyle = '#ffffff';
+      wrapText(`Текст: ${design.customText.trim()}`, previewX + 28, previewY + 150, previewW - 56, 30);
+    }
+
+    ctx.font = '500 20px sans-serif';
+    ctx.fillStyle = '#ffffff';
+    const detailsLabel = design.details.length ? `Детали: ${selectedDetails.map((detail) => detail.label).join(', ')}` : 'Детали: без доп. деталей';
+    wrapText(detailsLabel, previewX + 28, previewY + 220, previewW - 56, 26);
+
+    ctx.fillStyle = '#212121';
+    ctx.fillRect(previewX, previewY + previewH + 24, previewW, 146);
+
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '700 28px sans-serif';
+    ctx.fillText('Appcycling Tech Pack', previewX + 22, previewY + previewH + 70);
+
+    ctx.font = '500 18px sans-serif';
+    ctx.fillText(`Итого: ${formatPrice(pricing.total)}`, previewX + 22, previewY + previewH + 106);
+
+    return new Promise((resolve) => {
+      canvas.toBlob(
+        (blob) => {
+          resolve(blob);
+        },
+        'image/jpeg',
+        0.92,
+      );
+    });
+  };
+
   const sendDesignToTelegram = async (imageInput) => {
     try {
       if (!imageInput) {
@@ -108,7 +195,7 @@ function Constructor() {
 
       const formData = new FormData();
       formData.append('chat_id', import.meta.env.VITE_TELEGRAM_CHAT_ID);
-      formData.append('caption', '🎉 Новый заказ на апсайклинг!\nDesign ID: APC-7492\nТип: Куртка\nСтоимость: 14 000 ₸');
+      formData.append('caption', `🎉 Новый заказ на апсайклинг!\nDesign ID: APC-7492\nТип: ${design.type}\nЦвет: ${design.color}\nСтоимость: ${formatPrice(pricing.total)}`);
 
       let imageBlob;
 
@@ -203,13 +290,17 @@ function Constructor() {
     }, 650);
   };
 
-  const handleCompleteOrder = () => {
-    const placeholderPhoto =
-      'data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAP//////////////////////////////////////////////////////////////////////////////////////2wBDAf//////////////////////////////////////////////////////////////////////////////////////wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/9oACAEBAAEFAn//xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAEDAQE/AT//xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oACAECAQE/AT//2Q==';
+  const handleCompleteOrder = async () => {
+    const designBlob = await createDesignImageBlob();
 
-    const orderPhoto = placeholderPhoto;
-    console.log('handleCompleteOrder photo input:', { type: typeof orderPhoto, preview: orderPhoto?.slice?.(0, 64) });
-    void sendDesignToTelegram(orderPhoto);
+    if (!designBlob) {
+      console.error('Не удалось создать изображение дизайна для отправки.');
+      alert('Ошибка формирования изображения для Telegram. Попробуйте еще раз.');
+      return;
+    }
+
+    console.log('handleCompleteOrder отправляет Blob:', designBlob);
+    await sendDesignToTelegram(designBlob);
 
     setIsOrdered(true);
     setIsModalOpen(false);
