@@ -37,6 +37,9 @@ const basePrices = {
   Джинсовка: 15000,
 };
 
+const B2B_MIN_RUN = 50;
+const B2B_MAX_RUN = 500;
+
 const formatPrice = (value) => `${value.toLocaleString('ru-RU')} ₸`;
 
 const getInitialType = (locationState) => {
@@ -64,10 +67,14 @@ function Constructor() {
     details: [],
     customText: '',
   });
+  const [runQuantity, setRunQuantity] = useState(50);
   const [isGeneratingTechPack, setIsGeneratingTechPack] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [toast, setToast] = useState(null);
   const [isOrdered, setIsOrdered] = useState(false);
+
+  const role = window.localStorage.getItem('appcyclingRole') || 'b2c';
+  const isB2B = role === 'b2b';
 
   useEffect(() => {
     setDesign((current) => ({ ...current, type: initialType }));
@@ -89,32 +96,33 @@ function Constructor() {
     const base = basePrices[design.type] ?? basePrices.Куртка;
     const detailsCost = design.details.length * 1500;
     const textCost = design.customText.trim() ? 2000 : 0;
-    const total = base + detailsCost + textCost;
+    const run = isB2B ? Math.max(50, Math.min(500, runQuantity)) : 1;
+    const total = (base + detailsCost + textCost) * run;
 
     const bom = [
       {
         material: `${design.type}: переработанный деним и хлопок`,
-        quantity: '1 изделие',
-        price: base,
+        quantity: `${run} шт.`,
+        price: base * run,
       },
       ...selectedDetails.map((detail) => ({
         material: detail.bom,
-        quantity: detail.quantity,
-        price: 1500,
+        quantity: `${run} шт.`,
+        price: 1500 * run,
       })),
       ...(design.customText.trim()
         ? [
             {
               material: `Кастомный текст: "${design.customText.trim()}"`,
-              quantity: '1 принт',
-              price: 2000,
+              quantity: `${run} шт.`,
+              price: 2000 * run,
             },
           ]
         : []),
     ];
 
-    return { base, detailsCost, textCost, total, bom };
-  }, [design, selectedDetails]);
+    return { base, detailsCost, textCost, run, total, bom };
+  }, [design, selectedDetails, isB2B, runQuantity]);
 
   const toggleDetail = (detailId) => {
     setDesign((current) => ({
@@ -379,6 +387,31 @@ function Constructor() {
           </div>
         </div>
 
+        {isB2B ? (
+          <div className="rounded-2xl border border-[#eef4db] bg-[#f7f7ef] p-4 shadow-sm">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm font-semibold text-ink">Тираж партии</p>
+                <p className="mt-1 text-sm text-gray-500">От {B2B_MIN_RUN} до {B2B_MAX_RUN} изделий, шаг 50 шт.</p>
+              </div>
+              <span className="text-lg font-semibold text-[#556B2F]">{pricing.run} шт.</span>
+            </div>
+            <input
+              type="range"
+              min={B2B_MIN_RUN}
+              max={B2B_MAX_RUN}
+              step="50"
+              value={runQuantity}
+              onChange={(event) => setRunQuantity(Number(event.target.value))}
+              className="mt-4 w-full accent-[#556B2F]"
+            />
+            <div className="mt-2 flex justify-between text-xs text-gray-500">
+              <span>{B2B_MIN_RUN} шт.</span>
+              <span>{B2B_MAX_RUN} шт.</span>
+            </div>
+          </div>
+        ) : null}
+
         <div className="flex flex-col gap-3">
           <button
             type="button"
@@ -400,7 +433,7 @@ function Constructor() {
             onClick={handleCompleteOrder}
             className="rounded-2xl border border-[#556B2F] px-5 py-4 text-center text-base font-semibold text-[#556B2F] shadow-sm"
           >
-            Готово к заказу
+            {isB2B ? 'Запросить оптовую стоимость партии' : 'Готово к заказу'}
           </button>
         </div>
 

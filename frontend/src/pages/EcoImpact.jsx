@@ -26,19 +26,50 @@ const formatNumber = (value) =>
   Number.isInteger(value) ? value.toLocaleString('ru-RU') : value.toLocaleString('ru-RU', { maximumFractionDigits: 1 });
 
 function EcoImpact() {
+  const role = window.localStorage.getItem('appcyclingRole') || 'b2c';
+  const isB2B = role === 'b2b';
   const [itemsCount, setItemsCount] = useState(1);
+  const [batchCount, setBatchCount] = useState(1);
   const [isSharing, setIsSharing] = useState(false);
   const [selectedAchievement, setSelectedAchievement] = useState(achievements[0]);
   const [isFormulaOpen, setIsFormulaOpen] = useState(false);
   const [toast, setToast] = useState(null);
 
-  const textile = useMemo(() => itemsCount * 2.5, [itemsCount]);
-  const water = useMemo(() => itemsCount * 700, [itemsCount]);
-  const progress = useMemo(() => Math.min(100, Math.round((itemsCount / 5) * 100)), [itemsCount]);
-  const level = itemsCount >= 5 ? 'Эко-мастер' : itemsCount >= 3 ? 'Эко-активист' : 'Эко-новичок';
+  const textile = useMemo(() => {
+    if (isB2B) {
+      return (batchCount * 50 * 2.5) / 1000;
+    }
+    return itemsCount * 2.5;
+  }, [itemsCount, batchCount, isB2B]);
+
+  const water = useMemo(() => {
+    if (isB2B) {
+      return (batchCount * 50 * 700) / 1000;
+    }
+    return itemsCount * 700;
+  }, [itemsCount, batchCount, isB2B]);
+
+  const progress = useMemo(() => {
+    const current = isB2B ? batchCount : itemsCount;
+    return Math.min(100, Math.round((current / 5) * 100));
+  }, [itemsCount, batchCount, isB2B]);
+
+  const level = isB2B
+    ? batchCount >= 5
+      ? 'Промышленный лидер'
+      : batchCount >= 3
+      ? 'ESG-инициатор'
+      : 'Запуск цепочки'
+    : itemsCount >= 5
+    ? 'Эко-мастер'
+    : itemsCount >= 3
+    ? 'Эко-активист'
+    : 'Эко-новичок';
+
+  const activityCount = isB2B ? batchCount : itemsCount;
   const unlockedAchievements = achievements.map((achievement) => ({
     ...achievement,
-    active: itemsCount >= achievement.threshold,
+    active: activityCount >= achievement.threshold,
   }));
 
   useEffect(() => {
@@ -90,35 +121,50 @@ function EcoImpact() {
         <div className="rounded-2xl border border-gray-100 bg-white p-5 shadow-sm">
           <div className="flex items-center gap-2 text-[#556B2F]">
             <Sparkles size={18} />
-            <p className="text-sm font-semibold uppercase tracking-[0.2em]">Эко-вклад</p>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em]">{isB2B ? 'ESG-отчетность компании' : 'Эко-вклад'}</p>
           </div>
-          <h2 className="mt-2 text-2xl font-semibold text-ink">Ваш прогресс пересчитывается вживую</h2>
+          <h2 className="mt-2 text-2xl font-semibold text-ink">
+            {isB2B ? 'Отчетная аналитика для корпоративного устойчивого развития' : 'Ваш прогресс пересчитывается вживую'}
+          </h2>
           <p className="mt-2 text-sm text-gray-600">
-            Двигайте ползунок и смотрите, как меняются ресурсы, уровень и достижения.
+            {isB2B
+              ? 'Прокручивайте объемы партий, чтобы увидеть эффект на тонны текстиля и воды.'
+              : 'Двигайте ползунок и смотрите, как меняются ресурсы, уровень и достижения.'}
           </p>
         </div>
 
         <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <p className="text-sm font-semibold text-ink">Сколько старых вещей вы готовы сдать?</p>
-              <p className="mt-1 text-sm text-gray-500">1 вещь = 2.5 кг текстиля и 700 л воды</p>
+              <p className="text-sm font-semibold text-ink">
+                {isB2B ? 'Сколько партий по 50 шт. вы готовы переработать?' : 'Сколько старых вещей вы готовы сдать?'}
+              </p>
+              <p className="mt-1 text-sm text-gray-500">
+                {isB2B ? '1 партия = 50 изделий. Мы считаем результат в тоннах.' : '1 вещь = 2.5 кг текстиля и 700 л воды'}
+              </p>
             </div>
             <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#eef4db] text-xl font-bold text-[#556B2F]">
-              {itemsCount}
+              {isB2B ? batchCount : itemsCount}
             </div>
           </div>
           <input
             type="range"
-            min="1"
-            max="10"
-            value={itemsCount}
-            onChange={(event) => setItemsCount(Number(event.target.value))}
+            min={isB2B ? '1' : '1'}
+            max={isB2B ? '20' : '10'}
+            value={isB2B ? batchCount : itemsCount}
+            onChange={(event) => {
+              const value = Number(event.target.value);
+              if (isB2B) {
+                setBatchCount(value);
+              } else {
+                setItemsCount(value);
+              }
+            }}
             className="mt-5 w-full accent-[#556B2F]"
           />
           <div className="mt-2 flex justify-between text-xs text-gray-500">
-            <span>1 вещь</span>
-            <span>10 вещей</span>
+            <span>{isB2B ? '1 партия' : '1 вещь'}</span>
+            <span>{isB2B ? '20 партий' : '10 вещей'}</span>
           </div>
         </div>
 

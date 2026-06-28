@@ -41,6 +41,13 @@ function Catalog() {
   const [error, setError] = useState('');
   const [likedIdeas, setLikedIdeas] = useState({});
 
+  const role = window.localStorage.getItem('appcyclingRole') || 'b2c';
+  const isB2B = role === 'b2b';
+  const catalogTitle = isB2B ? 'Оптовая переработка остатков текстиля' : 'Подберите подходящий сервис';
+  const catalogSubtitle = isB2B
+    ? 'B2B Апсайклинг партий для промышленных объемов.'
+    : 'Выберите услугу для индивидуального апсайклинга и ремонта.';
+
   useEffect(() => {
     const timer = window.setTimeout(() => setIsLoading(false), 800);
     return () => window.clearTimeout(timer);
@@ -100,7 +107,8 @@ function Catalog() {
         <div className="flex items-center justify-between">
           <div>
             <p className="text-sm text-gray-500">Каталог услуг</p>
-            <h2 className="text-xl font-semibold text-ink">Подберите подходящий сервис</h2>
+            <h2 className="text-xl font-semibold text-ink">{catalogTitle}</h2>
+            <p className="mt-1 text-sm text-gray-500">{catalogSubtitle}</p>
           </div>
           <div className="relative flex h-10 w-10 items-center justify-center rounded-full bg-[#f7f7ef]">
             <Bell size={20} className="text-[#556B2F]" />
