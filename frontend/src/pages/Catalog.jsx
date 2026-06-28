@@ -145,29 +145,28 @@ function Catalog() {
       </div>
 
       {showNotifications && (
-        <div className="fixed left-1/2 top-24 z-50 w-[min(96vw,420px)] -translate-x-1/2 rounded-3xl border border-[#d6e9c6] bg-white p-5 shadow-[0_18px_80px_rgba(45,61,18,0.18)] relative">
+        <div className="fixed left-1/2 top-20 z-50 w-[min(96vw,420px)] -translate-x-1/2 rounded-2xl bg-white p-6 shadow-lg relative">
           <button
             type="button"
             onClick={() => setShowNotifications(false)}
-            className="absolute top-3 right-3 rounded-full px-2 py-1 text-xs font-semibold text-gray-500 transition hover:text-black"
+            className="absolute -right-2 -top-2 rounded-full bg-white/90 px-3 py-2 text-sm font-semibold text-gray-500 shadow-sm transition hover:text-black"
             aria-label="Закрыть уведомления"
           >
             ✕
           </button>
-          <div className="mb-3 flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#e8f5d8] text-[#3f6215]">
-              <Bell size={18} />
-            </div>
-            <div>
-              <p className="text-sm font-semibold text-[#27412a]">🔔 Уведомления</p>
-              <p className="text-xs text-[#6b7d5a]">Сейчас</p>
-            </div>
+          <div className="mb-4">
+            <p className="text-lg font-bold text-[#1f2937]">Уведомления</p>
+            <p className="mt-1 text-xs text-gray-400">Последние обновления для вашего заказа</p>
           </div>
-          <ul className="space-y-3 text-sm text-[#33402a]">
-            <li className="rounded-2xl bg-[#f3f7e2] p-3">
-              • <span className="font-semibold">Мастер принял ваш заказ №7492 в работу!</span> <span className="text-xs text-[#6b7d5a]">(10 мин назад)</span>
+          <ul className="flex flex-col gap-3 text-sm text-[#33402a]">
+            <li className="rounded-2xl bg-stone-50 p-4">
+              <p className="font-semibold text-[#111827]">Мастер принял ваш заказ №7492 в работу!</p>
+              <p className="mt-1 text-xs text-gray-400">10 мин назад</p>
             </li>
-            <li className="rounded-2xl bg-[#f7faf0] p-3">
+            <li className="rounded-2xl bg-stone-50 p-4">
+              <p className="font-semibold text-[#111827]">ИИ сгенерировал новые идеи для вашей джинсовки.</p>
+              <p className="mt-1 text-xs text-gray-400">1 час назад</p>
+            </li>
               • <span className="font-semibold">ИИ сгенерировал новые идеи для вашей джинсовки.</span> <span className="text-xs text-[#6b7d5a]">(1 час назад)</span>
               <div className="mt-2 text-xs text-[#556B2F]">Посмотрите в каталоге!</div>
             </li>

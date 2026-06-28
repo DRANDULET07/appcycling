@@ -680,3 +680,70 @@
       at JSXParserMixin.withSmartMixTopicForbiddingContext (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12420:14)
       at JSXParserMixin.parseFunction (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13461:10)
       at JSXParserMixin.parseFunctionStatement (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:13142:17)
+[2m20:46:36[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\Admin\appcycling\frontend\src\pages\Catalog.jsx: Expected corresponding JSX closing tag for <ul>. (172:12)
+
+[0m [90m 170 |[31m               • [33m<[31m[33mspan[31m className[33m=[31m[32m"font-semibold"[31m[33m>[31m[33mИИ[31m сгенерировал новые идеи для вашей джинсовки[33m.[31m[33m<[31m[33m/[31m[33mspan[31m[33m>[31m [33m<[31m[33mspan[31m className[33m=[31m[32m"text-xs text-[#6b7d5a]"[31m[33m>[31m([35m1[31m час назад)[33m<[31m[33m/[31m[33mspan[31m[33m>[31m
+ [90m 171 |[31m               [33m<[31m[33mdiv[31m className[33m=[31m[32m"mt-2 text-xs text-[#556B2F]"[31m[33m>[31m[33mПосмотрите[31m в каталоге[33m![31m[33m<[31m[33m/[31m[33mdiv[31m[33m>[31m
+[31m[1m>[22m[31m[90m 172 |[31m             [33m<[31m[33m/[31m[33mli[31m[33m>[31m
+ [90m     |[31m             [31m[1m^[22m[31m
+ [90m 173 |[31m           [33m<[31m[33m/[31m[33mul[31m[33m>[31m
+ [90m 174 |[31m         [33m<[31m[33m/[31m[33mdiv[31m[33m>[31m
+ [90m 175 |[31m       )}[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/Admin/appcycling/frontend/src/pages/Catalog.jsx[39m:172:12
+[33m  176|  
+  177|        {error ? (
+  178|          <div className="rounded-2xl border border-red-200 bg-red-50 p-3 text-sm text-red-700">{error}</div>
+     |                                                                                                             ^
+  179|        ) : null}
+  180|  [39m
+      at constructor (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:365:19)
+      at JSXParserMixin.raise (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:6616:19)
+      at JSXParserMixin.jsxParseElementAt (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:4739:16)
+      at JSXParserMixin.jsxParseElementAt (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:4710:32)
+      at JSXParserMixin.jsxParseElement (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:4761:17)
+      at JSXParserMixin.parseExprAtom (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:4771:19)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:11098:23)
+      at JSXParserMixin.parseUpdate (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:11083:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:11063:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10916:61)
+      at JSXParserMixin.parseExprOps (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10921:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10898:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10848:21)
+      at C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10817:39
+      at JSXParserMixin.allowInAnd (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12443:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10817:17)
+      at JSXParserMixin.parseMaybeAssignAllowInOrVoidPattern (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12510:17)
+      at JSXParserMixin.parseParenAndDistinguishExpression (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:11692:28)
+      at JSXParserMixin.parseExprAtom (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:11348:23)
+      at JSXParserMixin.parseExprAtom (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:4776:20)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:11098:23)
+      at JSXParserMixin.parseUpdate (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:11083:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:11063:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10916:61)
+      at JSXParserMixin.parseExprOpBaseRightExpr (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:11003:34)
+      at JSXParserMixin.parseExprOpRightExpr (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10998:21)
+      at JSXParserMixin.parseExprOp (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10964:27)
+      at JSXParserMixin.parseExprOps (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10925:17)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10898:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10848:21)
+      at JSXParserMixin.parseExpressionBase (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10801:23)
+      at C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10797:39
+      at JSXParserMixin.allowInAnd (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12443:12)
+      at JSXParserMixin.parseExpression (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10797:17)
+      at JSXParserMixin.jsxParseExpressionContainer (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:4644:31)
+      at JSXParserMixin.jsxParseElementAt (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:4723:36)
+      at JSXParserMixin.jsxParseElement (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:4761:17)
+      at JSXParserMixin.parseExprAtom (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:4771:19)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:11098:23)
+      at JSXParserMixin.parseUpdate (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:11083:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:11063:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10916:61)
+      at JSXParserMixin.parseExprOps (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10921:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10898:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10848:21)
+      at C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10817:39
+      at JSXParserMixin.allowInAnd (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12443:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:10817:17)
+      at JSXParserMixin.parseMaybeAssignAllowInOrVoidPattern (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:12510:17)
+      at JSXParserMixin.parseParenAndDistinguishExpression (C:\Users\Admin\appcycling\frontend\node_modules\@babel\parser\lib\index.js:11692:28)
